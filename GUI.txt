@@ -1,0 +1,84 @@
+GUI og javafx, grafiske grensesnitt
+
+-Application-klassen er viktig. Vi må lage en klasse som utvider Application for å lage GUI.
+
+  import javafx.application.Application;
+  import javafx.stage.Stage;
+  import javafx.scene.Scene;
+  import javafx.scene.Parent;
+  import javafx.scene.layout.Pane;
+  import javafx.scene.layout.VBox;
+  import javafx.scene.control.TextField;
+  import javafx.scene.control.Button;
+
+  public class Plenum extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+      TextField brukernavn = new TextField();
+      TextField passord = new TextField();
+      Button logginn = new Button("Logg inn");
+      logginn.setOnAction(new Knappetrykk());
+
+      VBox root = new VBox();
+
+      Scene scene = new Scene(root);
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+      launch();
+    }
+  }
+
+-I application er det en metode som heter start. Den må vi bruke i vår klasse som utvider Application.
+-I main maa vi ha en launch-metode.
+
+-Stage er hele vinduet.
+-Scene er det vi setter inni en Stage, innholdet i Stage'en.
+-Inni Stage'en er det usynlige beholdere som holder informasjonen på plass.
+-Pane er en type beholder.
+-I grafiske grensesnitt så jobber man i et hierarki av noder.
+-I gui-programmering så er det vanlig å jobbe med hendelser. Jeg kan dra, klikke, holde, slippe, taste, osv.
+-For at ting skal få en funksjon så må man lage en egen class som implementerer grensesnittet EventHandler<ActionEvent>
+
+  class Knappetrykk implements EventHandler<ActionEvent> {}
+
+-Interessant: dere trenger ikke egentlig en main-metode når dere jobber med javafx, men fint å vise hva som skjer.
+ Launch blir startet opp automatisk dersom dere ikke har skrevet en main-metode. Men merk dere dette:
+ skriver dere ikke launch() i den main-metoden dere skriver så vil ikke programmet fungere!
+
+-Her: en fil som laster inn filer og som organiserer tallene inni de filene i riktig rekkefølge.
+-Filvelgere kommer til å være et krav i oblig 7. Dere skal lage et grafisk grensesnitt og dere skal
+ kunne klikke på rutene.
+
+  public class Tall extends Application {
+    @Override
+    public void start(Stage vindu) {
+      VBox rot = new VBox();
+      HBox toppboks = lagToppBoks();
+      Scene scene = new Scene(rot);
+      vindu.setScene(scene);
+      vindu.setTitle("Talleksempel");
+      vindu.show();
+    }
+
+    private HBox lagToppBoks() {
+      Button velgFilKnapp = new Button("Velg fil...");
+
+    }
+ }
+
+-FileChooser fi = new FileChooser(); = let etter filer-option
+-fi.setTitle("velg en fil.");
+-File selectedFile = fileChooser.showOpenDialog(null);
+-if (selectedFile != null) {
+ .....selectedFile.getPath();
+}
+
+import javafx.stage.FileChooser();
+
+-FlowPane beholder = new FlowPane();
+-List
+-vindu.sizeToScene();

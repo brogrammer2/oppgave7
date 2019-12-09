@@ -1,0 +1,10 @@
+public void finnUtvei() {
+  gaa(this, "", );
+}
+
+if (nord.gaa != fra && instanceof hvitrute) {}
+if (soer.gaa != fra && instanceof hvitrute) {}
+if (oest.gaa != fra && instanceof hvitrute) {}
+if (vest.gaa != fra && instanceof hvitrute) {}
+
+ 

@@ -1,0 +1,86 @@
+GUI - Graphical user interface - Grafisk brukergrensesnitt
+
+-Javafx er en svær greie, man kan ikke ta for seg alt. Heldigvis skal vi ikke det.
+-main er ikke nødvendig å ta med når vi driver med GUI (men du kan skrive en main likevel!)
+
+3 sentrale begreper i GUI:
+-Application: er hovedklassen vi bygger programmet vårt på. Det som skal lage et
+ vindu må være en subklasse av denne klassen.
+-Stage: et objekt, en peker til et objekt som representerer hele vinduet vårt.
+ vi lager den i start. Stage er en parameter i start-metoden.
+-Scene: innholdet i Stage-objektet vårt.
+
+-Stage = HELE vinduet vårt.
+-Scenen = Den flaten hvor vi kan gjøre endringer i vinduet.
+
+-Å ha javadokumentasjon for hånd er viktig når man driver med GUI. Det er
+ umulig å huske hva alle klassene heter og hvor de hører hjemme.
+
+ public class Bareknapp extends Application {
+  public void start(Stage vindu) throws Exception {
+  Pane lerret = new Pane();
+  Scene scene = new Scene(lerret, 400, 300);
+  vindu.setScene(scene);
+  vindu.show();
+  vindu.setTitle("Hovedscene");
+  }
+ }
+
+Hva skjer om jeg lager sju knapper og prøver å kjøre GUI'en?
+-Uten å bevege på knappene, så vil du bare legge alle oppå hverandre.
+ Bare knapp nr. 7 vil være synlig.
+
+class Pane (som vi importerer fra javafx) er en basisklasse for layout panes i vinduet vårt.
+
+~Paneler~
+
+-Paneler har med hvor vi plasserer objektene våres å gjøre.
+-Dere har sikkert sett sudokubrett som er sånne grids.
+
+-Group: en beholder, på mange måter så får vi en beholder som holder flere objekter.
+
+-Alle disse panelene er noder
+
+Nå kommer det viktigste begrepet: Node
+Vi har tre nodetyper:
+-Rotnoder (hvor det starter)
+-Grennoder eller beholdernoder (strekker seg ut til flere noder)
+-Løvnoder eller endenoder (kommer ikke noe mer etter dette)
+
+-Rotnoder er alltid øverst. Den må være en beholdernode.
+-Alle forgreningsnodene er beholdere som inneholder andre noder.
+-De nederste nodene er løvnoder eller endenoder som det også blir kalt.
+
+-Class Node i seg selv er abstrakt og extends Object, som er foreldreklassen
+ til alle objekter.
+-Class Parent har en getChildren()-metode. Så alle foreldre kan hente sine barn.
+
+Node arver fra Object. Parent arver fra Node. Region arver fra Parent.
+Pane arver fra Region. GridPane arver fra Pane.
+
+Object <-- Node <-- Parent <-- Region <-- Pane <-- GridPane
+
+Object <-- Node <-- Shape <-- Text
+
+Skjønner du sammenhengen mellom disse så er mulighetene uendelige.
+
+I oblig 7 skal dere bruke filvalg når dere lager GUI'en til labyrint.
+
+Optional<ButtonType> svar = alert.showAndWait();
+
+HBox hbox = nyHBox(vindu);
+
+BorderPane border;
+Image bilde;
+ImageView iv;
+Button knapp;
+
+.setTop(), .setLeft(), setRight()
+
+GridPane rutepanel = new GridPane();
+
+Generell note:
+-Det kan virke veldig skremmende med alle de nye navnene, men
+ det er egentlig ikke så vanskelig som det ser ut. Det er en haug
+ med metodekall. Hold dere til dokumentasjonen, den vil hjelpe dere.
+ Dere har ikke sjangs uten dokumentasjonen.

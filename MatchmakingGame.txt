@@ -1,0 +1,136 @@
+GUI-Ting, i dag skal vi lage et lite spill.
+
+-Matchmaking spill, flipp to kort og se om du finner et par.
+-Spillet handler om å finne alle parene på kortest mulig trekk, så vi trenger en teller.
+
+Selve spillet skal være en egen Scene, men vi skal også lage en Scene som introduserer
+spillet. En "start spill"-meny. Det skal også komme en gratulasjon til spilleren når han/hun
+har funnet alle parene, noe som betyr at vi må lage det som en Scene også. Vi trenger altså 3 Scenes.
+
+Scene:
+-BorderPane - har to barn:
+    *Label    *GridPane
+
+Jeg bruker BorderPane for å vise dere det i dag.
+
+Hver gang vi skriver en klasse som heter Application må vi skrive over en metode som heter void start().
+Så, vi skriver:
+
+  public void start(Stage primaryStage) {}.
+
+-----------------------------------------------------------
+Interessante variabler:
+private static final int WINDOW_WIDTH = 300;
+private static final int WINDOW_HEIGTH = 300;
+private Scene introScene, gameScene, endScene;
+private Stage primaryStage;
+-----------------------------------------------------------
+
+  VBox rootPane = new VBox(20); //dette er det samme som padding, slik at det blir mer luft.
+
+  rootPane.setAlignment(Pos.CENTER); //si at ting skal dukke opp i midten av skjermen (Scene)
+
+  //rootPane.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null))); //veldig kronglete, men pensummåte.
+  rootPane.setStyle("-fx-background-color: lightblue;"); //fin måte å gjøre det på, men CSS dukker ikke opp på eksamen.
+
+  Label gameTitle = new Label("Memory Game!"); //Tittel
+  gameTitle.setStyle("-fx-font-size: 20pt;"); //Tittelens fontstørrelse
+
+  Button startButton = new Button("Start game!"); //Startknapp
+  startButton.setOnAction(e -> primaryStage.setScene)... //lamda
+
+  introScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT); //man sender med rotpanelet og vinduets bredde og høyde inn i Scenen.
+
+--------------------------------------------------------------
+
+Hvert kort må ha tre tilstander: ikke-trykket, trykket og trykket-og-matchet
+
+  public class CharButton extends Button {}
+
+  private char hiddenChar; //den skjulte bokstaven
+  private boolean clicked; //sjekker om kortet er trykket eller ikke
+
+  public CharButton(char hiddenChar) {
+    super(" ");
+    this.hiddenChar = hiddenChar;
+    clicked = false;
+    this.setStyle(-fx-font-size: 14pt;); //skriftstørrelse
+  }
+
+  public String toString() {
+    return hiddenChar + ""; //å plusse noe med en tom String er en "hacky" måte å si at du skal gjøre det om til en String.
+  }
+
+  public void toggleClick() {
+    clicked = !clicked; //hvis clicked er false, så blir den true! Hvis clicked er true, så blir den false! clicked er det motsatte av clicked!
+  }
+
+  public void setCorrect() {
+    setStyle("-fx-background-color: lightblue; -fx-font")
+  }
+
+-------------------------------------------------------------------
+
+  private Label scoreLabel;
+
+  private int score;
+  private int status;
+
+  private void makeGameScene() {
+    BorderPane rootPane = new BorderPane();
+    GridPane gamePane = new GridPane();
+
+    LinkedList<Character> chars = new LinkedList<Character> //wrapperklasse rundt chars. Du kan IKKE bruke primitive typer i sånne lister!
+
+    for (char c = 'a'; c < 'a' + BOARD_SIZE*BOARD_SIZE/2; c++) { //grunnen til at dette funker er fordi bokstaver er egentlig tall.
+      chars.add(c);
+      chars.add(c);
+    }
+
+    Collections.shuffle(chars); //stokk om på chars
+
+    for (int x = 0; x < BOARD_SIZE; x++) {
+      for (int y = 0; y < BOARD_SIZE; y++) {
+        CharButton b = new CharButton(chars.remove());
+        b.setPrefWidth(WINDOW_WIDTH/BOARD_SIZE);
+        b.setPrefHeight(WINDOW_HEIGHT/BOARD_SIZE);
+
+        gamePane.add(b, x, y);
+      }
+    }
+
+  scoreLabel = new Label("Score: 0");
+  scoreLabel.setStyle("-fx-font-size: 14pt;");
+
+  rootPane.setCenter(gamePane); //sett i midten...
+  rootPane.setTop(); //sett på toppen...
+  rootPane.setAlignment(scoreLabel, Pos.CENTER);
+
+  }
+-----------------------------------------------------------------------------
+b.setOnAction(e -> handleClick(b)); //lamdauttrykk kan brukes.
+
+  private void handleClick(CharButton newClicked) {
+    newClicked.toggleClick();
+
+    if (clickedButton == null) {
+      clickedButton = newClicked;
+    } else {
+      if (newClicked.equals(clickedButton)) {
+        status++;
+        newClicked.setCorrect();
+        clickedButton.setCorrect();
+
+        clickkedButton = null;
+      } else {
+        PauseTransition pt = new PauseTransition(Duration.millis(500));
+      }
+    }
+  }
+----------------------------------------------------------------------------
+
+Hva gjør vi når vi vinner?
+
+Vi kommer til å vinne en eller annen gang når vi trykker, så jeg sjekker om
+(status == BOARD_SIZE*BOARD_SIZE/2) med en if og så spiller jeg av Scenen som viser spilleren
+at han har vunnet spillet.
